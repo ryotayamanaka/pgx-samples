@@ -35,6 +35,9 @@ public class GraphClient {
 
   HttpClient httpClient;
 
+  @Value("${oracle.graph-server.url}")
+  String pgxUrl;
+
   @Value("${oracle.graph-server.jdbc-url}")
   String jdbcUrl;
 
@@ -93,9 +96,11 @@ public class GraphClient {
   private void login() throws LoginException {
     log.info("login {}", username);
     Map<String, String> payload = new HashMap<>();
+    //payload.put("baseUrl", pgxUrl);
     payload.put("baseUrl", jdbcUrl);
     payload.put("username", username);
     payload.put("password", password);
+    //payload.put("pgqlDriver", "pgxDriver");
     payload.put("pgqlDriver", "pgqlDriver");
     try {
       HttpResponse<String> response = httpClient.toBlocking().exchange(

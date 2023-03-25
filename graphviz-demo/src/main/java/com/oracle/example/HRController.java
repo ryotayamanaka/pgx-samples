@@ -33,7 +33,9 @@ public class HRController {
   @Get("/directs")
   @Produces(MediaType.APPLICATION_JSON)
   public String getDirects(@QueryValue String email) throws LoginException {
-    String pgql = "select e from match ()-[e]->(x:employees) on MYHR where x.email = '" + email + "'";
+    //String pgql = "select e from match ()-[e]->(x:employees) on TRACE_ALL where x.email = '" + email + "'";
+    //String pgql = "SELECT e FROM MATCH ALL (p1) (-[r]->(p)){1,2} (p2) ONE ROW PER STEP ( v1, e, v2 ) ON trace_all WHERE p1.id = '" + email + "' LIMIT 1500";
+    String pgql = "SELECT e FROM MATCH (p1)-[e]->() ON GRAPH1 WHERE p1.id = '" + email + "' LIMIT 1500";
     log.info("running {}", pgql);
     return graphClient.query(pgql);
   }
